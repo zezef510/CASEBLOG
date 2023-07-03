@@ -6,10 +6,12 @@
 </head>
 <body>
 <h2>Edit product</h2>
-<form action="/products" method="post">
+<form action="/edit-product" method="post">
     <input type="hidden" name="id" value="{id}">
     <input type="text" name="name" value="{name}">
     <input type="text" name="price" value="{price}">
+    <input type="text" name="quantity" value="{quantity}">
+    <input type="text" name="image" value="{image}">
     <button>Save</button>
 </form>
 </body>
