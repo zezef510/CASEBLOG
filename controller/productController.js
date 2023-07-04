@@ -4,7 +4,6 @@ import qs from "qs";
 import url from "url";
 
 class ProductController {
-    ;
 
     showAll(req, res) {
         let data = '';
@@ -19,7 +18,6 @@ class ProductController {
                 productService.save(data).then(() => {
                     showList(req, res);
                 })
-
             }
         })
     }
@@ -33,9 +31,7 @@ class ProductController {
             req.on('end', () => {
                 if (req.method === 'GET') {
                     let urlObject = url.parse(req.url, true);
-
                     productService.findById(urlObject.query.idEdit).then((product) => {
-
                         stringHTML = stringHTML.replace('{id}', product.id)
                         stringHTML = stringHTML.replace('{name}', product.name)
                         stringHTML = stringHTML.replace('{price}', product.price)
@@ -49,11 +45,8 @@ class ProductController {
                     productService.update(data).then(() => {
                         showList(req, res);
                     })
-
                 }
             })
-
-
         })
     }
 
@@ -64,7 +57,14 @@ class ProductController {
         })
     }
 
+    showFormDelete(req,res) {
+        let urlObject = url.parse(req.url, true);
+        productService.delete(urlObject.query.id).then(() => {
+            res.writeHead(301, {'location':'/products'});
+            res.end()
 
+        })
+    }
 }
 
 function showList(req, res) {
@@ -72,7 +72,11 @@ function showList(req, res) {
         let str = '';
         productService.findAll().then((products) => {
             for (const product of products) {
-                str += `<h3>${product.name}  <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-product?idEdit=${product.id}"><button>Edit</button></a></h3>`
+                str += `<h3>${product.name}  <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-product?idEdit=${product.id}"><button>Edit</button></a>
+<a onclick="return window.confirm('Are you sure you want to edit')" href="/delete?id=${product.id}"><button>Delete</button></a>
+</h3>`
+
+
             }
             stringHTML = stringHTML.replace('{list}', str)
             res.write(stringHTML);

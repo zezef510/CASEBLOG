@@ -54,6 +54,19 @@ class ProductService {
             })
         })
     }
+    delete (id){
+        return new Promise((resolve, reject) => {
+            connection.getConnection().query(`delete from product where id= ${id} `,(err, products) => {
+                if(err){
+                    reject(err)
+                } else {
+                    console.log(`xoá thành cong`)
+                    resolve(products)
+                }
+            })
+        })
+
+    }
 }
 
 export default new ProductService();
