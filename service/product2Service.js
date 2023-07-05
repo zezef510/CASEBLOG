@@ -1,14 +1,16 @@
 import connection from "../connection.js";
 
 
-class ProductService {
+class Product2Service {
     constructor() {
         connection.connecting();
     }
 
     findAll() {
         return new Promise((resolve, reject) => {
-            connection.getConnection().query('select * from product', (err, products) => {
+            let sql= 'select * from product'
+            sql+=' join category on product.idcategory = category.idC'
+            connection.getConnection().query(sql, (err, products) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -20,7 +22,7 @@ class ProductService {
 
     save(product) {
         return new Promise((resolve, reject) => {
-            connection.getConnection().query(`insert into product(id, name,price,quantity,image) value (${product.id},'${product.name}',${product.price},${product.quantity},'${product.image}')`, (err, products) => {
+            connection.getConnection().query(`insert into product value (${product.id},'${product.name}',${product.price},${product.quantity},'${product.image}',${product.idcategory})`, (err, products) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -44,7 +46,7 @@ class ProductService {
     }
     update (product){
         return new Promise((resolve, reject) => {
-            connection.getConnection().query(`update product Set name ='${product.name}',price =${product.price},quantity =${product.quantity},image ='${product.image}' where id= ${product.id}`,(err, products) => {
+            connection.getConnection().query(`update product Set name ='${product.name}',price =${product.price},quantity =${product.quantity},image ='${product.image}',idcategory=${product.idcategory} where id= ${product.id}`,(err, products) => {
                 if(err){
                     reject(err)
                 } else {
@@ -69,4 +71,4 @@ class ProductService {
     }
 }
 
-export default new ProductService();
+export default new Product2Service();

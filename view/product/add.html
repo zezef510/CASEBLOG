@@ -3,18 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .border{
+            border: 1px solid;
+            width: 500px;
+        }
+        .trangchu {
+            border: 1px solid;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-<a href="/">Trang chủ</a>
-<a href="/products">Danh sách sản phẩm</a>
-<h2>Thêm mới sản phẩm</h2>
-<form action="/products" method="post">
-    <input type="text" name="id">
-    <input type="text" name="name">
-    <input type="text" name="price">
-    <input type="text" name="quantity">
-    <input type="text" name="image">
-    <button>Add</button>
-</form>
+<div class="border">
+    <div class="trangchu">
+        <a href="/">Trang chủ</a>
+        <a href="/products">Danh sách sản phẩm</a>
+    </div>
+
+    <div>
+        <h2>Thêm mới sản phẩm</h2>
+        <form action="/products" method="post">
+            <input type="text" name="id">
+            <input type="text" name="name">
+            <input type="text" name="price">
+            <input type="text" name="quantity">
+            <input type="text" name="image">
+            <button>Add</button>
+        </form>
+    </div>
+
+</div>
+
 </body>
 </html>
