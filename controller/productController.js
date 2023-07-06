@@ -68,13 +68,21 @@ class ProductController {
 }
 
 function showList(req, res) {
-    fs.readFile('view/product/list.html', 'utf-8', (err, stringHTML) => {
+    fs.readFile('index.html', 'utf-8', (err, stringHTML) => {
         let str = '';
         productService.findAll().then((products) => {
             for (const product of products) {
-                str += `<h3>${product.name}  <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-product?idEdit=${product.id}"><button>Edit</button></a>
-<a onclick="return window.confirm('Are you sure you want to edit')" href="/delete?id=${product.id}"><button>Delete</button></a>
-</h3>`
+                str += `<div class="pb-5">
+        <div class="product-item position-relative bg-light d-flex flex-column text-center">
+          <img class="img-fluid mb-4" src=Anh/${product.image} alt="">
+          <h6 class="text-uppercase">${product.name}</h6>
+          <h5 class="text-primary mb-0">${product.price} $ </h5>
+          <div class="btn-action d-flex justify-content-center">
+            <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-cart"></i></a>
+            <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-eye"></i></a>
+          </div>
+        </div>
+      </div>`
 
 
             }
