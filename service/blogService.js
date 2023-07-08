@@ -20,6 +20,19 @@ class BlogService {
             })
         })
     }
+    findByUser(id){
+        return new Promise((resolve, reject) => {
+            let sql= `select * from blog`
+            sql+=` join user on blog.idUser = user.id where user.id = ${id}`
+            connection.getConnection().query(sql, (err, blogs) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(blogs)
+                }
+            })
+        })
+    }
 
     save(blog) {
 
