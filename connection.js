@@ -5,7 +5,7 @@ class Connection {
         host: 'localhost',
         user: 'root',
         password: '123456',
-        database: 'demo2006',
+        database: 'case3',
         charset: 'utf8_general_ci'
     }
 

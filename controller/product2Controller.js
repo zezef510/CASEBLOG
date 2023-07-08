@@ -31,13 +31,18 @@ class Product2Controller {
             req.on('end', () => {
                 if (req.method === 'GET') {
                     let urlObject = url.parse(req.url, true);
-                    product2Service.findById(urlObject.query.idEdit).then((product) => {
-                        stringHTML = stringHTML.replace('{id}', product.id)
-                        stringHTML = stringHTML.replace('{name}', product.name)
-                        stringHTML = stringHTML.replace('{price}', product.price)
-                        stringHTML = stringHTML.replace('{quantity}', product.quantity)
-                        stringHTML = stringHTML.replace('{image}', product.image)
-                        stringHTML = stringHTML.replace('{idcategory}', product.idcategory)
+
+                    product2Service.findById(urlObject.query.idEdit).then((blog) => {
+                        console.log(blog)
+                        stringHTML = stringHTML.replace('{idBlog}',blog.idBlog)
+                        stringHTML = stringHTML.replace('{category}',blog.category)
+                        stringHTML = stringHTML.replace('{imageBlog}',blog.imageBlog )
+                        stringHTML = stringHTML.replace('{title}', blog.title)
+                        stringHTML = stringHTML.replace('{status}', blog.status)
+                        stringHTML = stringHTML.replace('{shortDescription}', blog.shortDescription)
+                        stringHTML = stringHTML.replace('{detailBlog}', blog.detailBlog)
+                        stringHTML = stringHTML.replace('{startTime}', blog.startTime)
+                        stringHTML = stringHTML.replace('{idUser}', blog.idUser)
                         res.write(stringHTML);
                         res.end();
                     })
@@ -71,12 +76,11 @@ class Product2Controller {
 function showList(req, res) {
     fs.readFile('view/product2/list.html', 'utf-8', (err, stringHTML) => {
         let str = '';
-        product2Service.findAll().then((products) => {
-            console.log(products)
-            for (const product of products) {
-                str += `<h3>${product.name},${product.category}
-  <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-product2?idEdit=${product.id}"><button>Edit</button></a>
-<a onclick="return window.confirm('Are you sure you want to edit')" href="/delete2?id=${product.id}"><button>Delete</button></a>
+        product2Service.findAll().then((blogs) => {
+            for (const blog of blogs) {
+                str += `<h3><img src="${blog.imageBlog}">,${blog.title}
+  <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-product2?idEdit=${blog.idBlog}"><button>Edit</button></a>
+<a onclick="return window.confirm('Are you sure you want to edit')" href="/delete2?id=${blog.idBlog}"><button>Delete</button></a>
 
 </h3>`
 
