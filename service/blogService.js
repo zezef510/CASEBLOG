@@ -1,7 +1,7 @@
 import connection from "../connection.js";
 
 
-class Product2Service {
+class BlogService {
     cate
     constructor() {
         connection.connecting();
@@ -74,4 +74,4 @@ class Product2Service {
     }
 }
 
-export default new Product2Service();
+export default new BlogService();

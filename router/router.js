@@ -1,6 +1,6 @@
 import fs from 'fs'
-import productRouter from "./productRouter.js";
-import product2Router from "./product2Router.js";
+// import productRouter from "./productRouter.js";
+import blogRouter from "./blogRouter.js";
 import userRouter from "./userRouter.js";
 import homeController from "../controller/homeController.js";
 
@@ -9,7 +9,7 @@ let router = {
     '/': homeController.showIndex,
     '/err': homeController.showErr,
 }
-router = {...router, ...productRouter};
-router = {...router, ...product2Router};
+// router = {...router, ...productRouter};
+router = {...router, ...blogRouter};
 router = {...router, ...userRouter};
 export default router;
