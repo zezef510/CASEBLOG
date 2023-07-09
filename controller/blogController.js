@@ -67,13 +67,10 @@ class BlogController {
 
     showFormDelete(req, res) {
         let urlObject = url.parse(req.url, true);
-        blogService.delete(urlObject.query.id).then(() => {
-            blogService.findById(urlObject.query.id).then((data)=>{
+        blogService.delete(urlObject.query.id).then()
+        blogService.findById(urlObject.query.id).then((data)=>{
                 console.log(data,0)
                 showListUser(req, res,data)
-            })
-
-
         })
     }
 
