@@ -31,13 +31,13 @@ class UserController {
                     str += `
         <tr style="background-color: ${rowColor};">
           <td>${item.id}</td>
-          <td>${item.userName}</td>
-          <td>${item.password1}</td>
+          <td>${item.username}</td>
+          <td>${item.password}</td>
           <td>${item.email}</td>
           <td>${item.fullName}</td>
           <td>${item.address}</td>
-          <td>${item.Phone}</td>
-          <td>${item.Role}</td>
+          <td>${item.phone}</td>
+          <td>${item.role}</td>
           <td>${item.image}</td>
           <td><button class="actedit" style="padding: 5px 10px; background-color: #4CAF50; color: white;"><a href="/user/edit?idEdit=${item.id}" style="text-decoration: none; color: white;">Edit</a></button></td>
           <td>
@@ -70,8 +70,8 @@ class UserController {
                 fs.readFile('view/user/editUser.html', 'utf-8', (err, stringHTML) => {
                     userService.findByIdUser(urlObject.query.idEdit).then((User) => {
                         stringHTML = stringHTML.replace("{id}", User.id)
-                        stringHTML = stringHTML.replace("{userName}", User.userName)
-                        stringHTML = stringHTML.replace("{password1}", User.password1)
+                        stringHTML = stringHTML.replace("{username}", User.userName)
+                        stringHTML = stringHTML.replace("{password}", User.password1)
                         stringHTML = stringHTML.replace("{email}", User.email)
                         stringHTML = stringHTML.replace("{image}", User.image);
                         stringHTML = stringHTML.replace("{fullName}", User.fullName);
@@ -143,20 +143,25 @@ class UserController {
             });
             req.on('end', () => {
                 const formData = qs.parse(data);
-                console.log(formData)
-
-
                 // Gọi hàm service để xử lý đăng nhập người dùng
                 userService.checkLogin(formData.username, formData.password).then((data) => {
+                    console.log(data)
                     if (data.length === 0) {
                         // Đăng nhập không thành công, chuyển hướng đến trang đăng ký
                         res.writeHead(301, {'Location': '/register'});
                         res.end();
                     } else {
-                        fs.writeFile('userLogined', '' + data[0].id, err => {
-                        });
-                        res.writeHead(301, {Location: '/home'})
-                        res.end()
+                        if(data[0].role==='Admin'){
+                            res.writeHead(301, {Location: '/user/manager'})
+                            res.end()
+
+                        }else {
+                            fs.writeFile('userLogined', '' + data[0].id, err => {
+                            });
+                            res.writeHead(301, {Location: '/home'})
+                            res.end()
+                        }
+
                     }
                 })
                     .catch((error) => {

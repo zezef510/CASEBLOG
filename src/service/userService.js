@@ -8,7 +8,7 @@ class UserService {
 
     findAllAccount() {
         return new Promise((resolve, reject) => {
-            connection.getConnection().query('select * from users', (err, products) => {
+            connection.getConnection().query('select * from user', (err, products) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -74,7 +74,7 @@ class UserService {
     }
     findByIdUser(id) {
         return new Promise((resolve, reject) => {
-            connection.getConnection().query(`select * from users where id = ${id}`, (err, products) => {
+            connection.getConnection().query(`select * from user where id = ${id}`, (err, products) => {
                 if (err) {
                     reject(err)
                 } else {
