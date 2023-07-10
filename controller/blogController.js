@@ -81,10 +81,10 @@ class BlogController {
         })
         req.on('end', () => {
             if (req.method === 'GET') {
+
                 fs.readFile('view/blog/listByUser.html', 'utf-8', (err, stringHTML) => {
                     let urlObject = url.parse(req.url, true);
                     let str = '';
-
                     blogService.findByUser(urlObject.query.id).then((blogs) => {
                         console.log(urlObject.query.id,0)
                         for (const blog of blogs) {
@@ -94,7 +94,7 @@ class BlogController {
                     <a href="/bogs-user?idBlog=${blog.id}">Read More</a>
                     </h3>`
                         }
-                        str += `<a onclick="return window.confirm('Are you sure you want to edit')" href="/add-blog?id=1"><button>ADD</button></a>`
+                        str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/add-blog?id=${urlObject.query.id}"><button>ADD</button></a>`
                         stringHTML = stringHTML.replace('{listByUser}', str)
                         res.write(stringHTML);
                         res.end();
