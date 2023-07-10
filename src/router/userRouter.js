@@ -10,6 +10,7 @@ let userRouter = {
     '/': homeController.showIndex,
     '/user/edit':userController.showFormEdit,
     '/delete' : userController.delete,
+    '/user/editUser':userController.showFormEdit1,
 
 
 }

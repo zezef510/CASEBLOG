@@ -49,10 +49,10 @@ class UserService {
         });
     }
     update(user) {
-        let updateUS = `UPDATE users SET 
+        let updateUS = `UPDATE user SET 
          id = ${user.id},
-         userName = "${user.userName}",
-         password1 = "${user.password1}", 
+         userName = "${user.username}",
+         password = "${user.password}", 
          email = "${user.email}",
          image = "${user.image}",
          fullName = "${user.fullName}", 

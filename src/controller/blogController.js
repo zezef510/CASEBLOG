@@ -48,7 +48,7 @@ class BlogController {
                 } else {
                     data = qs.parse(data);
                     blogService.update(data).then(() => {
-                        showListUser(req, res,data)
+                        showListUser(req, res, data)
                     })
                 }
             })
@@ -68,9 +68,9 @@ class BlogController {
     showFormDelete(req, res) {
         let urlObject = url.parse(req.url, true);
         blogService.delete(urlObject.query.id).then()
-        blogService.findById(urlObject.query.id).then((data)=>{
-                console.log(data,0)
-                showListUser(req, res,data)
+        blogService.findById(urlObject.query.id).then((data) => {
+            console.log(data, 0)
+            showListUser(req, res, data)
         })
     }
 
@@ -80,38 +80,41 @@ class BlogController {
             data += dataRaw;
         })
         req.on('end', () => {
-            if (req.method === 'GET') {
+                if (req.method === 'GET') {
 
-                fs.readFile('view/blog/listByUser.html', 'utf-8', (err, stringHTML) => {
-                    let urlObject = url.parse(req.url, true);
-                    let str = '';
-                    blogService.findByUser(urlObject.query.id).then((blogs) => {
-                        console.log(urlObject.query.id,0)
-                        for (const blog of blogs) {
-                            str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
-                    <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-blog?idEdit=${blog.idBlog}"><button>Edit</button></a>
-                    <a onclick="return window.confirm('Are you sure you want to edit')" href="/delete-blog?id=${blog.idBlog}"><button>Delete</button></a>
-                    <a href="/bogs-user?idBlog=${blog.id}">Read More</a>
+                    fs.readFile('view/blog/listByUser.html', 'utf-8', (err, stringHTML) => {
+                        fs.readFile('userLogined', 'utf-8', (err, id) => {
+                            let str = '';
+                            blogService.findByUser(id).then((blogs) => {
+                                for (const blog of blogs) {
+                                    str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
+                     <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-blog?idEdit=${blog.idBlog}"><button>Edit</button></a>
+                     <a onclick="return window.confirm('Are you sure you want to edit')" href="/delete-blog?id=${blog.idBlog}"><button>Delete</button></a>
+                     <a href="/bogs-user?idBlog=${blog.id}">Read More</a>
                     </h3>`
-                        }
-                        str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/add-blog?id=${urlObject.query.id}"><button>ADD</button></a>`
-                        stringHTML = stringHTML.replace('{listByUser}', str)
-                        res.write(stringHTML);
-                        res.end();
+                                }
+                                str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/add-blog?id=${id}"><button>ADD</button></a>`
+                                str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/user/editUser?idEdit=${id}"><button>Hire me</button></a>`
+                                stringHTML = stringHTML.replace('{listByUser}', str)
+                                res.write(stringHTML);
+                                res.end();
+                            })
+                        })
                     })
-                })
-
-            } else {
-                data = qs.parse(data);
-                blogService.save(data).then(() => {
-                   showListUser(req,res,data)
-                })
+                } else {
+                    data = qs.parse(data);
+                    blogService.save(data).then(() => {
+                        showListUser(req, res, data)
+                    })
+                }
             }
-        })
+        )
     }
 }
 
-function showList(req, res) {
+function
+
+showList(req, res) {
     fs.readFile('view/blog/list.html', 'utf-8', (err, stringHTML) => {
         let str = '';
         blogService.findAll().then((blogs) => {
@@ -127,24 +130,31 @@ function showList(req, res) {
     })
 }
 
-function showListUser(req, res,data) {
+function
+
+showListUser(req, res, data) {
     fs.readFile('view/blog/listByUser.html', 'utf-8', (err, stringHTML) => {
-        let str = '';
-        blogService.findByUser(data.idUser).then((blogs) => {
-            console.log(blogs)
-            for (const blog of blogs) {
-                str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
+        fs.readFile('userLogined', 'utf-8', (err, id) => {
+            let str = '';
+            blogService.findByUser(data.idUser).then((blogs) => {
+                console.log(blogs)
+                for (const blog of blogs) {
+                    str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
                                <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-blog?idEdit=${blog.idBlog}"><button>Edit</button></a>
                                <a onclick="return window.confirm('Are you sure you want to edit')" href="/delete-blog?id=${blog.idBlog}"><button>Delete</button></a>
                                <a href="/bogs-user?idBlog=${blog.idBlog}">Read More</a>
                                </h3>`
-            }
-            str += `<a onclick="return window.confirm('Are you sure you want to edit')" href="/add-blog?id=1"><button>ADD</button></a>`
-            stringHTML = stringHTML.replace('{listByUser}', str)
-            res.write(stringHTML);
-            res.end();
+                }
+                str += `<a onclick="return window.confirm('Are you sure you want to edit')" href="/add-blog?id=${id}"><button>ADD</button></a>`
+                str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/user/editUser?idEdit=${id}"><button>Hire me</button></a>`
+                stringHTML = stringHTML.replace('{listByUser}', str)
+                res.write(stringHTML);
+                res.end();
+            })
         })
     })
 }
 
-export default new BlogController();
+export default new
+
+BlogController();

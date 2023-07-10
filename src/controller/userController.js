@@ -92,6 +92,40 @@ class UserController {
             }
         })
     }
+    showFormEdit1(req,res){
+        let urlObject = url.parse(req.url, true)
+        let data = '';
+        req.on('data', dataRaw => {
+            data += dataRaw;
+        })
+        req.on('end', () => {
+            if (req.method === 'GET') {
+                fs.readFile('view/user/editUser1.html', 'utf-8', (err, stringHTML) => {
+                    userService.findByIdUser(urlObject.query.idEdit).then((User) => {
+                        console.log(urlObject.query.idEdit,111)
+                        stringHTML = stringHTML.replace("{id}", User.id)
+                        stringHTML = stringHTML.replace("{username}", User.username)
+                        stringHTML = stringHTML.replace("{password}", User.password)
+                        stringHTML = stringHTML.replace("{email}", User.email)
+                        stringHTML = stringHTML.replace("{image}", User.image);
+                        stringHTML = stringHTML.replace("{fullName}", User.fullName);
+                        stringHTML = stringHTML.replace("{address}", User.address);
+                        stringHTML = stringHTML.replace("{phone}", User.phone);
+                        stringHTML = stringHTML.replace("{role}", User.role);
+                        // stringHTML = stringHTML.replace("{image}", User.popularityID);
+                        res.write(stringHTML);
+                        res.end();
+                    })
+                })
+            } else {
+                data = qs.parse(data);
+                userService.update(data).then(() => {
+                    res.writeHead(301, {'location': '/bogs-user'})
+                    res.end()
+                })
+            }
+        })
+    }
 
 
     delete(req, res) {
@@ -145,7 +179,6 @@ class UserController {
                 const formData = qs.parse(data);
                 // Gọi hàm service để xử lý đăng nhập người dùng
                 userService.checkLogin(formData.username, formData.password).then((data) => {
-                    console.log(data)
                     if (data.length === 0) {
                         // Đăng nhập không thành công, chuyển hướng đến trang đăng ký
                         res.writeHead(301, {'Location': '/register'});
@@ -190,7 +223,6 @@ class UserController {
             });
             req.on('end', () => {
                 const formData = qs.parse(dataZ);
-                console.log(formData)
                 // Gọi hàm service để xử lý đăng ký người dùng
                 userService.addAccount(formData).then(() => {
                     // Đăng ký thành công, chuyển hướng về trang đăng nhập
