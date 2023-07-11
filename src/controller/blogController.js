@@ -1,5 +1,5 @@
 import fs from "fs";
-import qs from "qs";
+import qs, {parse} from "qs";
 import url from "url";
 import blogService from "../service/blogService.js";
 
@@ -81,16 +81,17 @@ class BlogController {
         })
         req.on('end', () => {
                 if (req.method === 'GET') {
-
                     fs.readFile('view/blog/listByUser.html', 'utf-8', (err, stringHTML) => {
                         fs.readFile('userLogined', 'utf-8', (err, id) => {
-                            let str = '';
+                            let str = `<form action="/search-blogUser" method="POST">       
+                 <input type="text" name="search"> <button >search</button>                                 
+                 </form>`
                             blogService.findByUser(id).then((blogs) => {
                                 for (const blog of blogs) {
                                     str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
                      <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-blog?idEdit=${blog.idBlog}"><button>Edit</button></a>
                      <a onclick="return window.confirm('Are you sure you want to edit')" href="/delete-blog?id=${blog.idBlog}"><button>Delete</button></a>
-                     <a href="/bogs-user?idBlog=${blog.id}">Read More</a>
+                     <a href="/detail-blogs?id=${blog.id}">Read More</a>
                     </h3>`
                                 }
                                 str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/add-blog?id=${id}"><button>ADD</button></a>`
@@ -110,13 +111,59 @@ class BlogController {
             }
         )
     }
+    showFormDetail (req,res){
+        fs.readFile('view/blog/add.html', 'utf-8', (err, stringHTML) => {
+            let urlObject = url.parse(req.url, true);
+            blogService.findById( urlObject.query.id).then((blog)=>{
+                fs.readFile('view/blog/detailBlog.html', 'utf-8', (err, stringHTML) => {
+                    let str=`${blog.imageBlog},${blog.title},${blog.shortDescription},${blog.detailBlog},${blog.status},${blog.startTime}}`
+                    stringHTML = stringHTML.replace('{detailBog}', str)
+                    res.write(stringHTML);
+                    res.end();
+                })
+            })
+        })
+    }
+    showFormBlogUser(req,res){
+        let data = '';
+        req.on('data', dataRaw => {
+            data += dataRaw;
+        })
+        req.on('end', () => {
+            data=parse(data)
+            fs.readFile('view/blog/listByUser.html', 'utf-8', (err, stringHTML) => {
+                fs.readFile('userLogined', 'utf-8', (err, id) => {
+                    let str = `<form action="/search-blogUser" method="POST">       
+                 <input type="text" name="search"> <button >search</button>                                 
+                 </form>`
+                    blogService.findByTitleUser(data.search,id).then((blogSearch) => {
+                        console.log(blogSearch)
+                        for (const blog of blogSearch) {
+                            str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
+                     <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-blog?idEdit=${blog.idBlog}"><button>Edit</button></a>
+                     <a onclick="return window.confirm('Are you sure you want to edit')" href="/delete-blog?id=${blog.idBlog}"><button>Delete</button></a>
+                     <a href="/detail-blogs?id=${blogSearch.id}">Read More</a>
+                    </h3>`
+                        }
+                        str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/add-blog?id=${id}"><button>ADD</button></a>`
+                        str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/user/editUser?idEdit=${id}"><button>Hire me</button></a>`
+                        stringHTML = stringHTML.replace('{listByUser}', str)
+                        res.write(stringHTML);
+                        res.end();
+                    })
+                })
+            })
+        })
+    }
 }
 
 function
 
 showList(req, res) {
     fs.readFile('view/blog/list.html', 'utf-8', (err, stringHTML) => {
-        let str = '';
+        let str = `<form action="/search-blogUser" method="POST">       
+                 <input type="text" name="search"> <button >search</button>                                 
+                 </form>`;
         blogService.findAll().then((blogs) => {
             for (const blog of blogs) {
                 str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
@@ -135,14 +182,16 @@ function
 showListUser(req, res, data) {
     fs.readFile('view/blog/listByUser.html', 'utf-8', (err, stringHTML) => {
         fs.readFile('userLogined', 'utf-8', (err, id) => {
-            let str = '';
+            let str = `<form action="/search-blogUser" method="POST">       
+                 <input type="text" name="search"> <button >search</button>                                 
+                 </form>`;
             blogService.findByUser(data.idUser).then((blogs) => {
                 console.log(blogs)
                 for (const blog of blogs) {
                     str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
                                <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-blog?idEdit=${blog.idBlog}"><button>Edit</button></a>
                                <a onclick="return window.confirm('Are you sure you want to edit')" href="/delete-blog?id=${blog.idBlog}"><button>Delete</button></a>
-                               <a href="/bogs-user?idBlog=${blog.idBlog}">Read More</a>
+                               <a href="/detail-blogs?id=${blog.idBlog}">Read More</a>
                                </h3>`
                 }
                 str += `<a onclick="return window.confirm('Are you sure you want to edit')" href="/add-blog?id=${id}"><button>ADD</button></a>`

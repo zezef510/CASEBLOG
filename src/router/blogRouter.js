@@ -8,6 +8,10 @@ let blogRouter = {
     '/add-blog': blogController.showFormAdd,
     '/edit-blog': blogController.showFormEdit,
     '/delete-blog': blogController.showFormDelete,
+    '/detail-blogs': blogController.showFormDetail,
+    '/search-blogUser': blogController.showFormBlogUser,
+
+
 }
 
 export default blogRouter;

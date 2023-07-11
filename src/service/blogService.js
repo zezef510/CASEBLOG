@@ -85,6 +85,30 @@ class BlogService {
         })
 
     }
+    findByTitleUser(data, id){
+        return new Promise((resolve, reject) => {
+            connection.getConnection().query(`select * from blog join user on idUser=id where idUser= ${id} and title  like "%${data}%"`,(err, blogs) => {
+                if(err){
+                    reject(err)
+                } else {
+                    resolve(blogs)
+                }
+            })
+        })
+
+    }
+    findByTitle(data ){
+        return new Promise((resolve, reject) => {
+            connection.getConnection().query(`select * from blog join user where idUser=id and title  like "%${data}%"`,(err, blogs) => {
+                if(err){
+                    reject(err)
+                } else {
+                    resolve(blogs)
+                }
+            })
+        })
+
+    }
 }
 
 export default new BlogService();
