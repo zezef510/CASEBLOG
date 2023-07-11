@@ -37,7 +37,7 @@ class UserService {
     }
     delete(idDelete) {
         return new Promise((resolve, reject) => {
-            connection.getConnection().query(`DELETE FROM users WHERE id = ${idDelete}`, (err, delProduct) => {
+            connection.getConnection().query(`DELETE FROM user WHERE id = ${idDelete}`, (err, delProduct) => {
                 if (err) {
                     reject(err);
                 } else {

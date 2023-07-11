@@ -6,8 +6,8 @@
 </head>
 <body>
 <h2>Edit product</h2>
-<form action="/user/editUser" method="post">
-  <input type="hidden" name="id" value="{id}">
+<form action="/user/edit" method="post">
+  <input type="text" name="id" value="{id}">
   <input type="text" name="username" value="{username}" placeholder="username">
   <input type="text" name="password" value="{password}" placeholder="password">
   <input type="text" name="email" value="{email}" placeholder="email">
@@ -15,7 +15,7 @@
   <input type="text" name="fullName" value="{fullName}" placeholder="fullName">
   <input type="text" name="address" value="{address}" placeholder="address">
   <input type="text" name="phone" value="{phone}" placeholder="phone">
-  <input type="hidden" name="role" value="{role}">
+  <input type="text" name="role" value="{role}">
   <select></select>
   <button>Save</button>
 </form>

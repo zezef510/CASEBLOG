@@ -40,12 +40,8 @@ class UserController {
           <td>${item.role}</td>
           <td>${item.image}</td>
           <td><button class="actedit" style="padding: 5px 10px; background-color: #4CAF50; color: white;"><a href="/user/edit?idEdit=${item.id}" style="text-decoration: none; color: white;">Edit</a></button></td>
-          <td>
-            <form method='POST' action='/delete'>
-              <input type='hidden' name='idDelete' value='${item.id}'>
-              <button class="act" type='submit' style="padding: 5px 10px; background-color: #f44336; color: white;border-radius: 5px">Delete</button>
-            </form>
-          </td>
+          <td><button class="actedit" style="padding: 5px 10px; background-color: #4CAF50; color: white;"><a href="/delete?idDelete=${item.id}" style="text-decoration: none; color: white;">Delete</a></button></td>
+          
         </tr>
       `;
                 });
@@ -70,8 +66,8 @@ class UserController {
                 fs.readFile('view/user/editUser.html', 'utf-8', (err, stringHTML) => {
                     userService.findByIdUser(urlObject.query.idEdit).then((User) => {
                         stringHTML = stringHTML.replace("{id}", User.id)
-                        stringHTML = stringHTML.replace("{username}", User.userName)
-                        stringHTML = stringHTML.replace("{password}", User.password1)
+                        stringHTML = stringHTML.replace("{username}", User.username)
+                        stringHTML = stringHTML.replace("{password}", User.password)
                         stringHTML = stringHTML.replace("{email}", User.email)
                         stringHTML = stringHTML.replace("{image}", User.image);
                         stringHTML = stringHTML.replace("{fullName}", User.fullName);
@@ -129,24 +125,11 @@ class UserController {
 
 
     delete(req, res) {
-        let data = '';
-        req.on('data', dataRaw => {
-            data += dataRaw;
-        })
-        req.on('end', () => {
-            if (req.method === 'GET') {
-                this.showAllAcc(req, res);
-            } else {
-
-                data = qs.parse(data);
-                const idDelete = data.idDelete;
-                if (idDelete !== undefined) {
-                    userService.delete(idDelete).then(() => {
-                        res.writeHead(301, {'location': '/user/manager'})
-                        res.end()
-                    })
-                }
-            }
+        let urlObject = url.parse(req.url, true);
+        userService.delete(urlObject.query.idDelete).then(()=>{
+            console.log(urlObject.query.idDelete)
+            res.writeHead(301, {'Location': '/user/manager'});
+            res.end();
         })
     }
 
@@ -177,14 +160,17 @@ class UserController {
             });
             req.on('end', () => {
                 const formData = qs.parse(data);
+                console.log(formData)
                 // Gọi hàm service để xử lý đăng nhập người dùng
                 userService.checkLogin(formData.username, formData.password).then((data) => {
+
                     if (data.length === 0) {
                         // Đăng nhập không thành công, chuyển hướng đến trang đăng ký
                         res.writeHead(301, {'Location': '/register'});
                         res.end();
                     } else {
-                        if(data[0].role==='Admin'){
+                        if(data[0].role=='Admin'){
+                            console.log(data.role)
                             res.writeHead(301, {Location: '/user/manager'})
                             res.end()
 
