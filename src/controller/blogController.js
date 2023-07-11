@@ -88,11 +88,34 @@ class BlogController {
                  </form>`
                             blogService.findByUser(id).then((blogs) => {
                                 for (const blog of blogs) {
-                                    str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
-                     <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-blog?idEdit=${blog.idBlog}"><button>Edit</button></a>
-                     <a onclick="return window.confirm('Are you sure you want to edit')" href="/delete-blog?id=${blog.idBlog}"><button>Delete</button></a>
-                     <a href="/detail-blogs?id=${blog.id}">Read More</a>
-                    </h3>`
+                                    str += `   <div class="row blog-item px-3 pb-5">
+        <div class="col-md-5">
+          <img class="img-fluid mb-4 mb-md-0" src="${blog.imageBlog}" alt="Image">
+        </div>
+        <div class="col-md-7">
+          <h3 class="mt-md-4 px-md-3 mb-2 py-2 bg-white font-weight-bold">${blog.title}</h3>
+          <div class="d-flex mb-3">
+          
+            <small class="mr-2 text-muted">${blog.fullName}</small>
+            <small class="mr-2 text-muted"><i class="fa fa-calendar-alt"></i> 01-Jan-2045</small>
+            <small class="mr-2 text-muted"><i class="fa fa-folder"></i> Web Design</small>
+            <small class="mr-2 text-muted"><i class="fa fa-comments"></i> 15 Comments</small>
+          </div>
+          <p>
+            ${blog.shortDescription}
+          </p>
+          <div class="button-row">
+                  <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-blog?idEdit=${blog.idBlog}">
+                    <button>Edit</button>
+                  </a>
+                  <a onclick="return window.confirm('Are you sure you want to delete')" href="/delete-blog?id=${blog.idBlog}">
+                    <button>Delete</button>
+                  </a>
+                  <a href="/bogs-user?idBlog=${blog.id}" >Read More</a>
+                </div>
+        </div>
+      </div>
+            `;
                                 }
                                 str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/add-blog?id=${id}"><button>ADD</button></a>`
                                 str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/user/editUser?idEdit=${id}"><button>Hire me</button></a>`
@@ -104,6 +127,7 @@ class BlogController {
                     })
                 } else {
                     data = qs.parse(data);
+                    console.log(data,0)
                     blogService.save(data).then(() => {
                         showListUser(req, res, data)
                     })
@@ -142,7 +166,7 @@ class BlogController {
                             str += `<h3><img src="${blog.imageBlog}">,${blog.title},${blog.fullName}
                      <a onclick="return window.confirm('Are you sure you want to edit')" href="/edit-blog?idEdit=${blog.idBlog}"><button>Edit</button></a>
                      <a onclick="return window.confirm('Are you sure you want to edit')" href="/delete-blog?id=${blog.idBlog}"><button>Delete</button></a>
-                     <a href="/detail-blogs?id=${blogSearch.id}">Read More</a>
+                     <a href="/detail-blogs?id=${blog.id}">Read More</a>
                     </h3>`
                         }
                         str += `<a onclick="return window.confirm('Are you sure you want to add')" href="/add-blog?id=${id}"><button>ADD</button></a>`

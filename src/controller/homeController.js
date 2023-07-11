@@ -4,7 +4,7 @@ import qs from "qs";
 
 class HomeController {
     showIndex(req, res) {
-        fs.readFile('view/index.html', 'utf-8', (err, stringHTML) => {
+        fs.readFile('view/food-home/home.html', 'utf-8', (err, stringHTML) => {
             res.write(stringHTML);
             res.end();
         })
@@ -17,41 +17,32 @@ class HomeController {
         })
     }
 
-    showHome(req, res) {
-        let data = '';
-
-        req.on('data', dataRaw => {
-            data += dataRaw;
-        })
-
-        req.on('end', () => {
-            if (req.method === 'GET') {
-                showListHome(req, res)
-            } else {
-                data = qs.parse(data);
-
-                blogService.findByTitle(data.search).then((blogs) => {
-                    fs.readFile('view/blog/list.html', 'utf-8', (err, stringHTML) => {
-                        let str = `<form action="/home" method="POST">
-                                 <input type="text" name="search"> <button >search</button>
-                                 </form> `
-                        for (let item of blogs) {
-                            str += `<h3><img src="${item.imageBlog}">,${item.title},${item.fullName}</h3>`
-                        }
-                        stringHTML = stringHTML.replace('{list}', str)
-                        fs.readFile('userLogined', 'utf-8', (err, id) => {
-                            stringHTML = stringHTML.replace('{id}', id)
-                            res.write(stringHTML);
-                            res.end();
-                        })
-                    })
-
+    showHome(req,res){
+        fs.readFile('view/blog/list.html', 'utf-8', (err, stringHTML) => {
+            let str = ``
+            blogService.findAll().then((blogs) => {
+                for (const blog of blogs) {
+                    str += `
+               
+                <div class="card" style="width: 36rem; margin: 20px 40px 100px 10px">
+                <img class="card-img-top" src="${blog.imageBlog}"  height="350px" alt="Card image cap">
+                 <div class="card-body">
+                 <h5 class="card-title">${blog.title}</h5>
+                <p class="card-text" style="text-align: left">${blog.shortDescription}</p>
+                <p> ${blog.fullName}</p>
+                <a href="#" class="btn btn-primary">Read details</a>
+                </div>
+                </div>
+                `;
+                }
+                stringHTML = stringHTML.replace('{list}', str)
+                fs.readFile('userLogined', 'utf-8', (err, id) => {
+                    stringHTML = stringHTML.replace('{id}', id)
+                    res.write(stringHTML);
+                    res.end();
                 })
-            }
-                // blogService.findByTitle(data).then(() => {
-                //     showListHome(req,res// }
+            })
         })
-
     }
 }
 

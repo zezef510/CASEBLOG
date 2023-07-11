@@ -29,7 +29,7 @@ class UserService {
                     reject(err)
                 } else {
                     resolve(data55)
-                    console.log(data55,9)
+
                 }
             })
         })
