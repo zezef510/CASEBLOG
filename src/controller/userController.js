@@ -5,6 +5,7 @@ import url from "url";
 import blogService from "../service/blogService.js";
 
 
+
 class UserController {
     showAllAcc(req, res) {
         fs.readFile('view/user/listAccount.html', 'utf-8', (err, stringHTML) => {
@@ -127,7 +128,6 @@ class UserController {
     delete(req, res) {
         let urlObject = url.parse(req.url, true);
         userService.delete(urlObject.query.idDelete).then(()=>{
-            console.log(urlObject.query.idDelete)
             res.writeHead(301, {'Location': '/user/manager'});
             res.end();
         })

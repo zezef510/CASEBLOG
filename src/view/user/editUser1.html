@@ -1,23 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Edit User</title>
+  <style>
+
+    /* Áp dụng các kiểu dáng chung cho trang */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+
+    }
+
+    h2 {
+      color: #333;
+    }
+    .father {
+      margin: 10px;
+      padding: 10px;
+    }
+
+    /* Kiểu dáng cho form */
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      width: 700px;
+
+    }
+
+    input[type="text"],
+    select {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* Tùy chỉnh kiểu dáng cho các phần tử khác nhau trong form */
+    input[name="username"],
+    input[name="password"],
+    input[name="email"],
+    input[name="image"],
+    input[name="fullName"],
+    input[name="address"],
+    input[name="phone"] {
+      /* Thêm kiểu dáng tùy chỉnh cho từng input nếu cần */
+    }
+
+  </style>
 </head>
 <body>
-<h2>Edit product</h2>
+<h2>Edit User</h2>
+<div class="father">
 <form action="/user/editUser" method="post">
   <input type="hidden" name="id" value="{id}">
-  <input type="text" name="username" value="{username}" placeholder="username">
-  <input type="text" name="password" value="{password}" placeholder="password">
-  <input type="text" name="email" value="{email}" placeholder="email">
-  <input type="text" name="image" value="{image}" placeholder="image">
-  <input type="text" name="fullName" value="{fullName}" placeholder="fullName">
-  <input type="text" name="address" value="{address}" placeholder="address">
-  <input type="text" name="phone" value="{phone}" placeholder="phone">
+  <label for="username">Username</label>
+    <input type="text" name="username" value="{username}" id="username" placeholder="username">
+
+  <label for="pass">Password
+  <input type="text" name="password" value="{password}" id="pass" placeholder="password"></label>
+
+  <label for="email">
+     Email.
+    <input type="text" name="email" value="{email}"  id="email" placeholder="email"></label>
+
+  <label for="image">Image
+    <input type="text" name="image" value="{image}" id="image" placeholder="image"></label>
+
+  <label for="fullName">fullName
+    <input type="text" name="fullName" value="{fullName}" id="fullName" placeholder="fullName"></label>
+
+
+  <label for="address">Address</label>
+  <input type="text" name="address" value="{address}" id="address" placeholder="address">
+
+
+  <label for="phone">Phone
+    <input type="text" name="phone" value="{phone}" id="phone" placeholder="phone"></label>
+
   <input type="hidden" name="role" value="{role}">
-  <select></select>
-  <button>Save</button>
+
+  <div style="display: flex; justify-content: center;">
+    <button>Save</button></div>
+
 </form>
+</div>
 </body>
 </html>

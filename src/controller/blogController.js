@@ -143,8 +143,10 @@ class BlogController {
             let urlObject = url.parse(req.url, true);
             blogService.findById( urlObject.query.id).then((blog)=>{
                 fs.readFile('view/blog/detailBlog.html', 'utf-8', (err, stringHTML) => {
-                    let str=`${blog.imageBlog},${blog.title},${blog.shortDescription},${blog.detailBlog},${blog.status},${blog.startTime}}`
-                    stringHTML = stringHTML.replace('{detailBog}', str)
+                    stringHTML = stringHTML.replace('{detailBog}',blog.detailBlog)
+                    stringHTML = stringHTML.replace('{imageDetail}',blog.imageBlog)
+                    stringHTML = stringHTML.replace('{ContentDetail}',blog.title)
+                    stringHTML = stringHTML.replace('{time}',blog.startTime)
                     res.write(stringHTML);
                     res.end();
                 })
@@ -210,9 +212,7 @@ class BlogController {
     }
 }
 
-function
-
-showList(req, res) {
+function showList(req, res) {
     fs.readFile('view/blog/list.html', 'utf-8', (err, stringHTML) => {
         let str = `<form action="/search-blogUser" method="POST">       
                  <input type="text" name="search"> <button >search</button>                                 
@@ -240,8 +240,8 @@ showListUser(req, res, data) {
             blogService.findByUser(data.idUser).then((blogs) => {
                 for (const blog of blogs) {
                     str += `   <div class="row blog-item px-3 pb-5">
-        <div class="col-md-5">
-          <img class="img-fluid mb-4 mb-md-0" src="${blog.imageBlog}" alt="Image">
+        <div class="col-md-5" >
+          <img class="img-fluid mb-4 mb-md-0" src="${blog.imageBlog}" style="height: 300px" alt="Image">
         </div>
         <div class="col-md-7">
           <h3 class="mt-md-4 px-md-3 mb-2 py-2 bg-white font-weight-bold">${blog.title}</h3>

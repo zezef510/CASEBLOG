@@ -2,22 +2,103 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>chet tu tu</title>
 </head>
+<style>
+  /* Áp dụng các kiểu dáng chung cho trang */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+
+  }
+
+  h2 {
+    color: #333;
+  }
+  .father {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  /* Kiểu dáng cho form */
+  form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 700px;
+
+  }
+
+  input[type="text"],
+  select {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  /* Tùy chỉnh kiểu dáng cho các phần tử khác nhau trong form */
+  input[name="username"],
+  input[name="password"],
+  input[name="email"],
+  input[name="image"],
+  input[name="fullName"],
+  input[name="address"],
+  input[name="phone"] {
+    /* Thêm kiểu dáng tùy chỉnh cho từng input nếu cần */
+  }
+</style>
 <body>
-<h2>Edit product</h2>
+<h2>Edit Admin</h2>
 <form action="/user/edit" method="post">
+
+
   <input type="text" name="id" value="{id}">
-  <input type="text" name="username" value="{username}" placeholder="username">
-  <input type="text" name="password" value="{password}" placeholder="password">
-  <input type="text" name="email" value="{email}" placeholder="email">
-  <input type="text" name="image" value="{image}" placeholder="image">
-  <input type="text" name="fullName" value="{fullName}" placeholder="fullName">
-  <input type="text" name="address" value="{address}" placeholder="address">
-  <input type="text" name="phone" value="{phone}" placeholder="phone">
-  <input type="text" name="role" value="{role}">
-  <select></select>
+
+  <label for="username">Username</label>
+  <input type="text" name="username" value="{username}" id="username" placeholder="username">
+
+  <label for="password">Password</label>
+  <input type="text" name="password" value="{password}"  id="password" placeholder="password">
+
+  <label for="em">Email</label>
+  <input type="text" name="email" value="{email}"  id="em" placeholder="email">
+
+  <label for="image">Image</label>
+  <input type="text" name="image" value="{image}"  id="image" placeholder="image">
+
+  <label for="fullName">Full Name</label>
+  <input type="text" name="fullName" value="{fullName}" id="fullName" placeholder="fullName">
+
+  <label for="address">Address</label>
+  <input type="text" name="address" value="{address}" id="address" placeholder="address">
+
+  <label for="phone">Phone</label>
+  <input type="text" name="phone" value="{phone}" id="phone" placeholder="phone">
+
+
+  <input type="hidden" name="role" value="{role}">
+
+  <div style="display: flex; justify-content: center;">
   <button>Save</button>
+  </div>
 </form>
 </body>
 </html>

@@ -3,9 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Nunito+Sans:wght@200&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
+<style type="text/css">
+    input[type=submit] {
+        position: relative;
+        z-index: 9;
+        display: inline-block;
+        padding: 0 30px;
+        background: green;
+        font-family: 'Nunito Sans', sans-serif;
+        border: none;
+        border-radius: 999px;
+        color: #fff;
+        font-size: .6875rem;
+        font-weight: 700;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        line-height: 42px;
+        text-align: center;
+        transition: .4s;
+        cursor: pointer;
+    }
+
+      body {
+          font-family: 'Nunito Sans', sans-serif;
+          background-color: #f2f2f2;
+                          }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-family: 'Permanent Marker', cursive;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .comment-form label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .comment-form textarea,
+    .comment-form input[type="text"],
+    .comment-form input[type="email"],
+    .comment-form input[type="url"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+    }
+
+    .comment-form input[type="checkbox"] {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    .comment-form p.form-submit {
+        text-align: right;
+    }
+
+    .comment-form input[type="submit"] {
+        background-color: green;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        padding: 15px 30px;
+        font-size: 14px;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+    #comments-container {
+        margin-top: 30px;
+    }
+
+    .comment {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment strong {
+        font-weight: bold;
+    }
+</style>
 <body>
-<a href="/bogs-user">Quay lai</a>
-{detailBog}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/bogs-user">Back</a>
+    </nav>
+
+<div class="media">
+    <div class="media-body">
+
+        <div class="media mt-3">
+
+            <a class="pr-3" href="#">
+                <img src="{imageDetail}" alt="Generic placeholder image">
+            </a>
+            <div class="media-body">
+                <h5 class="mt-0">{ContentDetail}</h5>
+                {detailBog}            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+<div>{time}</div>
+    <p class="comment-form-author"><label for="author" style="margin-left: 28px">  Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required /></p>
+<p class="comment-form-comment"><label for="comment">Comment <span class="required">*</span></label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required></textarea></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /></p>
+
+<div id="comments-container"></div>
+
+<script>
+    document.getElementById("submit").addEventListener("click", function(event) {
+        event.preventDefault(); // Ngăn chặn việc gửi form đi
+
+        var author = document.getElementById("author").value;
+        var comment = document.getElementById("comment").value;
+
+        // Hiển thị thông tin đã lưu dưới phần comment
+        var savedDataContainer = document.createElement("div");
+        savedDataContainer.innerHTML = "<p><strong>Author: </strong>" + author + "</p>" +
+            "<p><strong>Comment: </strong>" + comment + "</p>";
+
+        document.getElementById("comments-container").appendChild(savedDataContainer);
+
+        // Xóa nội dung trong các trường nhập liệu sau khi gửi comment thành công
+        document.getElementById("author").value = "";
+        document.getElementById("comment").value = "";
+    });
+</script>
 </body>
 </html>

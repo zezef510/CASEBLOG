@@ -19,22 +19,22 @@ class UserService {
     }
 
     addAccount(formData) {
-        let addAcc = `insert into users (id, username, password1, email, image, fullName, address, phone, role)  
-                                        VALUES         (${formData.idRegister},"${formData.userNameRs}","${formData.passWordRS}",
-                                                       "${formData.email}","${formData.image}","${formData.fullName}",
-                                                       "${formData.address}","${formData.phone}","${formData.role}")`
+        let addAcc = `INSERT INTO user ( username, password, email, image, fullName, address, phone)
+                  VALUES ( '${formData.userNameRs}', '${formData.passWordRS}',
+                          '${formData.email}', '${formData.image}', '${formData.fullName}',
+                          '${formData.address}', '${formData.phone}')`;
         return new Promise((resolve, reject) => {
             connection.getConnection().query(addAcc, (err, data55) => {
                 if (err) {
-                    reject(err)
+                    reject(err);
                 } else {
-                    resolve(data55)
-
+                    resolve(data55);
                 }
-            })
-        })
-
+            });
+        });
     }
+
+
     delete(idDelete) {
         return new Promise((resolve, reject) => {
             connection.getConnection().query(`DELETE FROM user WHERE id = ${idDelete}`, (err, delProduct) => {
